@@ -2,975 +2,323 @@
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
-<title>Lord Nine Boss</title>
+<title>Lord Nine Boss TWOKRATS-LORDNINE</title>
 <style>
-:root {
-  --bg-dark: #0a0a0f;
-  --bg-card: #1a1a2e;
-  --bg-hover: #252540;
-  --text-light: #f0f0f0;
-  --text-dim: #a0a0b0;
-  --primary: #00d4ff;
-  --primary-glow: rgba(0, 212, 255, 0.3);
-  --warning: #ffa500;
-  --danger: #ff3366;
-  --success: #00ff88;
-  --border: #2a2a3e;
-  --gold: #ffd700;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
-  color: var(--text-light);
-  min-height: 100vh;
-  padding: 20px 20px 80px 20px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 30px;
-  padding: 20px;
-  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 212, 255, 0.1) 100%);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.header h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2.2rem;
-  background: linear-gradient(90deg, var(--primary), #00ff88);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 10px;
-}
-
-.header-logo {
-  width: 60px;
-  height: auto;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 10px var(--primary-glow));
-}
-
-.stats-bar {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  font-size: 0.9rem;
-  color: var(--text-dim);
-}
-
-.stat-item strong {
-  color: var(--primary);
-  font-size: 1.1rem;
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  background: linear-gradient(135deg, var(--primary), #0099cc);
-  border: none;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
-}
-
-.btn-secondary {
-  background: linear-gradient(135deg, #444, #666);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.search-box {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto 25px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 12px 20px;
-  background: var(--bg-card);
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  color: var(--text-light);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 15px var(--primary-glow);
-}
-
-.table-container {
-  background: var(--bg-card);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  margin-bottom: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead {
-  background: linear-gradient(135deg, #252540, #1a1a2e);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-th {
-  padding: 18px 15px;
-  text-align: left;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 2px solid var(--primary);
-}
-
-tbody tr {
-  border-bottom: 1px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-tbody tr:hover {
-  background: var(--bg-hover);
-}
-
-tbody tr.spawning-soon {
-  background: rgba(255, 165, 0, 0.15);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-tbody tr.spawned {
-  background: rgba(255, 51, 102, 0.15);
-}
-
-tbody tr.scheduled-boss {
-  background: rgba(0, 212, 255, 0.05);
-}
-
-td {
-  padding: 15px;
-  font-size: 0.95rem;
-}
-
-.boss-name {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--primary);
-}
-
-.boss-type {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-left: 8px;
-  text-transform: uppercase;
-}
-
-.type-scheduled {
-  background: linear-gradient(135deg, var(--gold), #ffed4e);
-  color: #000;
-}
-
-.type-respawn {
-  background: linear-gradient(135deg, var(--primary), #0099cc);
-  color: #fff;
-}
-
-.location {
-  color: var(--text-dim);
-  font-size: 0.9rem;
-}
-
-.respawn-time {
-  color: var(--success);
-  font-weight: 600;
-}
-
-.schedule-info {
-  color: var(--gold);
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
-
-.countdown {
-  font-family: 'Orbitron', monospace;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--success);
-}
-
-.countdown.soon {
-  color: var(--warning);
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.4; }
-}
-
-.countdown.spawned {
-  color: var(--danger);
-}
-
-.countdown.active-now {
-  color: var(--gold);
-  font-size: 1.2rem;
-}
-
-.next-spawn-time {
-  color: var(--text-dim);
-  font-size: 0.85rem;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.btn-small {
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  background: linear-gradient(135deg, var(--primary), #0099cc);
-  border: none;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.btn-small:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px var(--primary-glow);
-}
-
-.btn-small:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-danger {
-  background: linear-gradient(135deg, var(--danger), #cc0033);
-}
-
-.time-input {
-  padding: 8px 12px;
-  background: var(--bg-dark);
-  border: 2px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-light);
-  font-size: 0.9rem;
-  min-width: 120px;
-}
-
-.time-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 10px var(--primary-glow);
-}
-
-.time-input::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  cursor: pointer;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-dark));
-  padding: 12px;
-  text-align: center;
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
-  border-top: 1px solid var(--border);
-}
-
-.eth-address {
-  color: var(--primary);
-  font-family: monospace;
-  font-size: 0.8rem;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%); color: #f0f0f0; padding: 10px; padding-bottom: 80px; }
+.header { text-align: center; background: rgba(0, 212, 255, 0.1); padding: 10px; border-radius: 6px; margin-bottom: 10px; }
+.header img { width: 25px; margin-bottom: 4px; }
+.header h1 { font-size: 0.85rem; color: #00d4ff; margin-bottom: 4px; }
+.header p { font-size: 0.65rem; color: #00ff88; margin-bottom: 4px; }
+.stats { display: flex; gap: 10px; justify-content: center; font-size: 0.7rem; }
+.stats span { color: #a0a0b0; }
+.stats strong { color: #00d4ff; }
+.controls { display: flex; gap: 8px; margin-bottom: 10px; }
+.btn-reset { flex: 1; padding: 8px; background: #444; border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
+.boss-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+.boss-card { background: rgba(0, 212, 255, 0.05); border: 1px solid #00d4ff; border-radius: 4px; padding: 8px; display: flex; flex-direction: column; }
 
 @media (max-width: 768px) {
-  .header h1 {
-    font-size: 1.5rem;
-  }
-  
-  th, td {
-    padding: 12px 8px;
-    font-size: 0.85rem;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-  }
-  
-  .btn-small {
-    width: 100%;
-  }
+  .boss-list { grid-template-columns: 1fr; gap: 8px; }
 }
+
+@media (max-width: 480px) {
+  .boss-list { grid-template-columns: 1fr; gap: 6px; }
+}
+.boss-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.boss-name { color: #00d4ff; font-weight: bold; font-size: 0.8rem; }
+.boss-type { background: #ffd700; color: #000; padding: 2px 5px; border-radius: 3px; font-size: 0.55rem; font-weight: bold; }
+.boss-info { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; font-size: 0.7rem; }
+.info-label { color: #00d4ff; font-weight: bold; font-size: 0.6rem; }
+.info-value { color: #f0f0f0; word-break: break-word; }
+.countdown { color: #00ff88; font-weight: bold; }
+.countdown.soon { color: #ffa500; }
+.countdown.active { color: #ffd700; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.btn-small { padding: 5px; background: #00d4ff; border: none; color: white; border-radius: 3px; cursor: pointer; font-size: 0.65rem; font-weight: bold; }
+.btn-small.danger { background: #ff3366; grid-column: 1 / -1; }
+.time-input { grid-column: 1 / -1; padding: 3px; background: #0a0a0f; border: 1px solid #00d4ff; color: #f0f0f0; border-radius: 3px; font-size: 0.65rem; }
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(26, 26, 46, 0.95); padding: 6px; text-align: center; font-size: 0.6rem; color: #a0a0b0; }
+.eth { font-family: monospace; color: #00d4ff; font-size: 0.55rem; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <img src="https://static-pubcomm.onstove.com/live/l9_asia/brand/images/promotion/common/aside/log_en.png" alt="Lord Nine Logo" class="header-logo">
-  <h1> BOSS TRACKER </h1>
-  <h1>Developer By : RETRUNVOID</h1>
-  <div class="stats-bar">
-    <div class="stat-item">Total Bosses: <strong id="totalBosses">0</strong></div>
-    <div class="stat-item">Active Now: <strong id="activeNow">0</strong></div>
-    <div class="stat-item">Coming Soon: <strong id="spawningSoon">0</strong></div>
+  <img src="https://static-pubcomm.onstove.com/live/l9_asia/brand/images/promotion/common/aside/log_en.png" alt="Logo">
+  <h1>⚔️ BOSS TRACKER ⚔️</h1>
+  <hi>⚔️ TWOKRATS-LORDNINE ⚔️</hi>
+  <p>🌍 Asia/Jakarta UTC+7</p>
+  <div class="stats">
+    <div><span>Total:</span> <strong id="total">0</strong></div>
+    <div><span>Active:</span> <strong id="active" style="color: #ff3366;">0</strong></div>
+    <div><span>Soon:</span> <strong id="soon" style="color: #ffa500;">0</strong></div>
   </div>
 </div>
 
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="🔍 Search boss or location...">
-</div>
-
 <div class="controls">
-  <button class="btn" onclick="sortTable('name')">Sort by Name</button>
-  <button class="btn" onclick="sortTable('type')">Sort by Type</button>
-  <button class="btn" onclick="sortTable('countdown')">Sort by Time</button>
-  <button class="btn btn-secondary" onclick="resetAllTimers()">Reset Manual Timers</button>
+  <button class="btn-reset" onclick="doResetAll()">🔄 Reset All</button>
 </div>
 
-<div class="table-container">
-  <table id="bossTable">
-    <thead>
-      <tr>
-        <th>Boss Name</th>
-        <th>Location</th>
-        <th>Spawn Info</th>
-        <th>Next Spawn</th>
-        <th>Countdown</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-    </tbody>
-  </table>
-</div>
+<div class="boss-list" id="list"></div>
 
-<audio id="alertSound" preload="auto">
-  <source src="https://notificationsounds.com/storage/sounds/file-sounds-1153-pristine.mp3" type="audio/mpeg">
-</audio>
+<audio id="audio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
 
 <footer>
-   Developer By : RETRUNVOID <br>
-   Support the developer - Buy me a coffee!<br>
-  <span class="eth-address">EVM: 0x513569F2a68f29BA2feeEA57664fa919791F3E0D</span>
+  <span class="eth">TWOKRATS-LORDNINE</span>
 </footer>
 
 <script>
-// Boss data dengan 2 tipe: scheduled (jadwal tetap) dan respawn (perlu tracking manual)
-const bossData = {
-  // SCHEDULED BOSSES - Spawn otomatis berdasarkan jadwal tetap
-  "Ratan": {
-    type: "scheduled",
-    location: "Ancient Ruins",
-    schedule: [
-      { day: "daily", times: ["10:00", "11:00", "19:00", "20:00"] }
-    ]
-  },
-  "Parto": {
-    type: "scheduled",
-    location: "Ancient Ruins",
-    schedule: [
-      { day: "daily", times: ["10:00", "11:00", "19:00", "20:00"] }
-    ]
-  },
-  "Nedra": {
-    type: "scheduled",
-    location: "Ancient Ruins",
-    schedule: [
-      { day: "daily", times: ["10:00", "11:00", "19:00", "20:00"] }
-    ]
-  },
-  "Benji": {
-    type: "scheduled",
-    location: "Nest of Vengeance",
-    schedule: [
-      { day: "sunday", times: ["20:00"] }
-    ]
-  },
-  "Chailock": {
-    type: "scheduled",
-    location: "Kallion's Tomb",
-    schedule: [
-      { day: "saturday", times: ["21:00"] }
-    ]
-  },
-  "Auraq": {
-    type: "scheduled",
-    location: "Garbana Underground Waterway 2F",
-    schedule: [
-      { day: "friday", times: ["21:00"] },
-      { day: "wednesday", times: ["20:00"] }
-    ]
-  },
-  "Saphirus": {
-    type: "scheduled",
-    location: "Moonlight Shackle",
-    schedule: [
-      { day: "sunday", times: ["16:00"] },
-      { day: "tuesday", times: ["10:30"] }
-    ]
-  },
-  "Neutro": {
-    type: "scheduled",
-    location: "Battlefield of Love and Hatred",
-    schedule: [
-      { day: "tuesday", times: ["18:00"] },
-      { day: "thursday", times: ["10:30"] }
-    ]
-  },
-  "Clemantis": {
-    type: "scheduled",
-    location: "White Witch's Cradle",
-    schedule: [
-      { day: "monday", times: ["10:30"] },
-      { day: "thursday", times: ["18:00"] }
-    ]
-  },
-  "Thymele": {
-    type: "scheduled",
-    location: "Mark of Rampage",
-    schedule: [
-      { day: "monday", times: ["18:00"] },
-      { day: "wednesday", times: ["10:30"] }
-    ]
-  },
-  "Milavy": {
-    type: "scheduled",
-    location: "Lower Tomb of Tyriosa 3F",
-    schedule: [
-      { day: "saturday", times: ["14:00"] }
-    ]
-  },
-  "Ringor": {
-    type: "scheduled",
-    location: "Torchlight Highway",
-    schedule: [
-      { day: "saturday", times: ["16:00"] }
-    ]
-  },
-  "Roderick": {
-    type: "scheduled",
-    location: "Garbana Underground Waterway 1F",
-    schedule: [
-      { day: "friday", times: ["18:00"] }
-    ]
-  },
-  
-  // RESPAWN BOSSES - Perlu tracking manual dengan tombol "Boss Killed"
-  "Amentis": { type: "respawn", hours: 29, location: "Land of Glory" },
-  "Araneo": { type: "respawn", hours: 24, location: "Tyriosa 1F" },
-  "Asta": { type: "respawn", hours: 62, location: "Silvergrass Field" },
-  "Baron": { type: "respawn", hours: 32, location: "Battlefield of Templar" },
-  "Catena": { type: "respawn", hours: 35, location: "Deadman 3F" },
-  "Duplican": { type: "respawn", hours: 48, location: "Plateau of Revolution" },
-  "Ego": { type: "respawn", hours: 21, location: "Ulan Canyon" },
-  "Gareth": { type: "respawn", hours: 32, location: "Deadman 1F" },
-  "General": { type: "respawn", hours: 29, location: "Tyriosa 2F" },
-  "Lady": { type: "respawn", hours: 18, location: "Twilight Hill" },
-  "Larba": { type: "respawn", hours: 35, location: "Ruins of the War" },
-  "Livera": { type: "respawn", hours: 24, location: "Protector's Ruins" },
-  "Metus": { type: "respawn", hours: 48, location: "Plateau of Revolution" },
-  "Ordo": { type: "respawn", hours: 62, location: "Silvergrass Field" },
-  "Secreta": { type: "respawn", hours: 62, location: "Silvergrass Field" },
-  "Shuliar": { type: "respawn", hours: 35, location: "Ruins of the War" },
-  "Supore": { type: "respawn", hours: 62, location: "Silvergrass Field" },
-  "Titore": { type: "respawn", hours: 37, location: "Deadman 2F" },
-  "Undomiel": { type: "respawn", hours: 24, location: "Secret Lab" },
-  "Venatus": { type: "respawn", hours: 10, location: "Corrupted Basin" },
-  "Viorent": { type: "respawn", hours: 10, location: "Crescent Lake" },
-  "Wannitas": { type: "respawn", hours: 48, location: "Plateau of Revolution" }
+const TZ = 'Asia/Jakarta';
+const bosses = {
+  "Ratan": {type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
+  "Parto": {type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
+  "Nedra": {type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
+  "Benji": {type: "scheduled", loc: "Nest of Vengeance", sched: [{day: "sunday", times: ["20:00"]}]},
+  "Chailock": {type: "scheduled", loc: "Kallion's Tomb", sched: [{day: "saturday", times: ["21:00"]}]},
+  "Auraq": {type: "scheduled", loc: "Garbana Underground Waterway 2F", sched: [{day: "friday", times: ["21:00"]}, {day: "wednesday", times: ["20:00"]}]},
+  "Saphirus": {type: "scheduled", loc: "Moonlight Shackle", sched: [{day: "sunday", times: ["16:00"]}, {day: "tuesday", times: ["10:30"]}]},
+  "Neutro": {type: "scheduled", loc: "Battlefield of Love and Hatred", sched: [{day: "tuesday", times: ["18:00"]}, {day: "thursday", times: ["10:30"]}]},
+  "Clemantis": {type: "scheduled", loc: "White Witch's Cradle", sched: [{day: "monday", times: ["10:30"]}, {day: "thursday", times: ["18:00"]}]},
+  "Thymele": {type: "scheduled", loc: "Mark of Rampage", sched: [{day: "monday", times: ["18:00"]}, {day: "wednesday", times: ["10:30"]}]},
+  "Milavy": {type: "scheduled", loc: "Lower Tomb of Tyriosa 3F", sched: [{day: "saturday", times: ["14:00"]}]},
+  "Ringor": {type: "scheduled", loc: "Torchlight Highway", sched: [{day: "saturday", times: ["16:00"]}]},
+  "Roderick": {type: "scheduled", loc: "Garbana Underground Waterway 1F", sched: [{day: "friday", times: ["18:00"]}]},
+  "Amentis": {type: "respawn", hrs: 29, loc: "Land of Glory"},
+  "Araneo": {type: "respawn", hrs: 24, loc: "Tyriosa 1F"},
+  "Asta": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+  "Baron": {type: "respawn", hrs: 32, loc: "Battlefield of Templar"},
+  "Catena": {type: "respawn", hrs: 35, loc: "Deadman 3F"},
+  "Duplican": {type: "respawn", hrs: 48, loc: "Plateau of Revolution"},
+  "Ego": {type: "respawn", hrs: 21, loc: "Ulan Canyon"},
+  "Gareth": {type: "respawn", hrs: 32, loc: "Deadman 1F"},
+  "General": {type: "respawn", hrs: 29, loc: "Tyriosa 2F"},
+  "Lady": {type: "respawn", hrs: 18, loc: "Twilight Hill"},
+  "Larba": {type: "respawn", hrs: 35, loc: "Ruins of the War"},
+  "Livera": {type: "respawn", hrs: 24, loc: "Protector's Ruins"},
+  "Metus": {type: "respawn", hrs: 48, loc: "Plateau of Revolution"},
+  "Ordo": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+  "Secreta": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+  "Shuliar": {type: "respawn", hrs: 35, loc: "Ruins of the War"},
+  "Supore": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+  "Titore": {type: "respawn", hrs: 37, loc: "Deadman 2F"},
+  "Undomiel": {type: "respawn", hrs: 24, loc: "Secret Lab"},
+  "Venatus": {type: "respawn", hrs: 10, loc: "Corrupted Basin"},
+  "Viorent": {type: "respawn", hrs: 10, loc: "Crescent Lake"},
+  "Wannitas": {type: "respawn", hrs: 48, loc: "Plateau of Revolution"}
 };
 
-let trackedBosses = {};
-let lastNotifyTime = 0;
-let currentSort = 'name';
+let tracked = {};
+let notified = {};
 
-if (Notification && Notification.permission !== "granted") {
-  Notification.requestPermission();
+function now() { return new Date(new Date().toLocaleString('en-US', {timeZone: TZ})); }
+
+function fmtTime(d) {
+  const h = d.getHours();
+  let p = '';
+  if (h >= 5 && h < 11) p = '🌅 Pagi';
+  else if (h >= 11 && h < 15) p = '☀️ Siang';
+  else if (h >= 15 && h < 18) p = '🌤️ Sore';
+  else if (h >= 18 && h < 21) p = '🌆 Petang';
+  else p = '🌙 Malam';
+  const t = d.toLocaleString('en-US', {timeZone: TZ, month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
+  return `${t} ${p}`;
 }
 
-function saveState() {
-  const toSave = {};
-  for (let key in trackedBosses) {
-    toSave[key] = {
-      ...trackedBosses[key],
-      nextSpawn: trackedBosses[key].nextSpawn.toISOString(),
-      killedAt: trackedBosses[key].killedAt.toISOString()
-    };
-  }
-  localStorage.setItem('trackedBosses', JSON.stringify(toSave));
-}
-
-function loadState() {
-  const saved = localStorage.getItem('trackedBosses');
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    for (let key in parsed) {
-      trackedBosses[key] = {
-        ...parsed[key],
-        nextSpawn: new Date(parsed[key].nextSpawn),
-        killedAt: new Date(parsed[key].killedAt)
-      };
-    }
-  }
-}
-
-function getNextScheduledSpawn(boss) {
-  const now = new Date();
-  const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  let nextSpawns = [];
-  
-  for (let sched of boss.schedule) {
-    for (let time of sched.times) {
-      if (sched.day === 'daily') {
-        // Check today
-        let spawnTime = new Date(now);
-        const [h, m] = time.split(':').map(Number);
-        spawnTime.setHours(h, m, 0, 0);
-        
-        if (spawnTime > now) {
-          nextSpawns.push(spawnTime);
-        }
-        
-        // Check tomorrow
-        spawnTime = new Date(now);
-        spawnTime.setDate(spawnTime.getDate() + 1);
-        spawnTime.setHours(h, m, 0, 0);
-        nextSpawns.push(spawnTime);
-      } else {
-        // Specific day of week
-        const targetDay = dayNames.indexOf(sched.day);
-        const currentDay = now.getDay();
-        let daysUntil = targetDay - currentDay;
-        
-        if (daysUntil < 0) daysUntil += 7;
-        if (daysUntil === 0) {
-          // Today - check if time has passed
-          const [h, m] = time.split(':').map(Number);
-          let spawnTime = new Date(now);
-          spawnTime.setHours(h, m, 0, 0);
-          
-          if (spawnTime > now) {
-            nextSpawns.push(spawnTime);
-          } else {
-            // Next week
-            spawnTime = new Date(now);
-            spawnTime.setDate(spawnTime.getDate() + 7);
-            spawnTime.setHours(h, m, 0, 0);
-            nextSpawns.push(spawnTime);
-          }
-        } else {
-          const [h, m] = time.split(':').map(Number);
-          let spawnTime = new Date(now);
-          spawnTime.setDate(spawnTime.getDate() + daysUntil);
-          spawnTime.setHours(h, m, 0, 0);
-          nextSpawns.push(spawnTime);
-        }
-      }
-    }
-  }
-  
-  nextSpawns.sort((a, b) => a - b);
-  return nextSpawns[0];
-}
-
-function isSpawnActive(nextSpawn) {
-  const now = new Date();
-  const diff = nextSpawn - now;
-  // Active if within 1 hour window
-  return diff >= 0 && diff <= 3600000;
-}
-
-function setKillTime(bossName, killedAt) {
-  const hours = bossData[bossName].hours;
-  const nextSpawn = new Date(killedAt.getTime() + hours * 3600000);
-  trackedBosses[bossName] = { 
-    nextSpawn, 
-    killedAt, 
-    hours,
-    notified: false 
-  };
-  saveState();
-  renderTable();
-}
-
-function handleKillNow(bossName) {
-  const killedAt = new Date();
-  killedAt.setSeconds(0, 0);
-  setKillTime(bossName, killedAt);
-}
-
-function handleCustomTime(bossName) {
-  isUpdating = true;
-  const input = document.getElementById(`time-${bossName}`);
-  if (!input || !input.value) {
-    alert("Please enter a kill time");
-    isUpdating = false;
-    return;
-  }
-  const now = new Date();
-  const [h, m] = input.value.split(':').map(Number);
-  let killedAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
-  if (killedAt > now) {
-    killedAt.setDate(killedAt.getDate() - 1);
-  }
-  setKillTime(bossName, killedAt);
-  setTimeout(() => { isUpdating = false; }, 100);
-}
-
-function updateCountdowns() {
-  // Update only countdown cells without re-rendering whole table
-  const rows = document.querySelectorAll('tbody tr');
-  rows.forEach(row => {
-    const countdownCell = row.querySelector('td:nth-child(5)');
-    if (!countdownCell) return;
-    
-    const bossNameElement = row.querySelector('.boss-name');
-    if (!bossNameElement) return;
-    
-    const bossName = bossNameElement.textContent;
-    const boss = bossData[bossName];
-    
-    if (!boss) return;
-    
-    let countdownHTML = '';
-    let newRowClass = boss.type === 'scheduled' ? 'scheduled-boss' : '';
-    
-    if (boss.type === 'scheduled') {
-      const nextSpawn = getNextScheduledSpawn(boss);
-      if (nextSpawn) {
-        const remaining = nextSpawn - new Date();
-        const remainingMinutes = remaining / 60000;
-        
-        if (isSpawnActive(nextSpawn)) {
-          countdownHTML = '<span class="countdown active-now">🔥 ACTIVE NOW! 🔥</span>';
-          newRowClass = 'spawned';
-        } else if (remainingMinutes <= 30) {
-          countdownHTML = `<span class="countdown soon">${formatTime(remaining)}</span>`;
-          newRowClass = 'spawning-soon';
-        } else {
-          countdownHTML = `<span class="countdown">${formatTime(remaining)}</span>`;
-        }
-      }
-    } else if (trackedBosses[bossName]) {
-      const tracked = trackedBosses[bossName];
-      const remaining = tracked.nextSpawn - new Date();
-      const remainingMinutes = remaining / 60000;
-      
-      if (remaining <= 0) {
-        countdownHTML = '<span class="countdown spawned">SPAWNED!</span>';
-        newRowClass = 'spawned';
-      } else {
-        let countdownClass = 'countdown';
-        if (remainingMinutes <= 30) {
-          countdownClass += ' soon';
-          newRowClass = 'spawning-soon';
-        }
-        countdownHTML = `<span class="${countdownClass}">${formatTime(remaining)}</span>`;
-      }
-    } else {
-      countdownHTML = '<span class="countdown" style="color: var(--text-dim);">Not tracked</span>';
-    }
-    
-    countdownCell.innerHTML = countdownHTML;
-    row.className = newRowClass;
-  });
-}
-
-function resetTimer(bossName) {
-  delete trackedBosses[bossName];
-  saveState();
-  renderTable();
-}
-
-function resetAllTimers() {
-  if (confirm("Reset all manual timers for respawn bosses?")) {
-    trackedBosses = {};
-    saveState();
-    renderTable();
-  }
-}
-
-function notifyBoss(bossName, message) {
-  const now = Date.now();
-  if (now - lastNotifyTime < 5000) return;
-  lastNotifyTime = now;
-
-  if (Notification.permission === "granted") {
-    new Notification(`⚠️ ${bossName}`, { body: message });
-  }
-  document.getElementById("alertSound").play().catch(()=>{});
-}
-
-function formatTime(ms) {
-  if (ms <= 0) return "00:00:00";
+function fmtCount(ms) {
   const s = Math.floor(ms / 1000);
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
-  return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 }
 
-function formatSchedule(schedule) {
-  return schedule.map(s => {
-    const day = s.day === 'daily' ? 'Daily' : s.day.charAt(0).toUpperCase() + s.day.slice(1);
-    return `${day}: ${s.times.join(', ')}`;
-  }).join('<br>');
-}
-
-function sortTable(by) {
-  currentSort = by;
-  renderTable();
-}
-
-let isUpdating = false;
-
-function renderTable() {
-  if (isUpdating) return; // Prevent re-render while updating
-  
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  const tbody = document.getElementById('tableBody');
-  
-  let bosses = Object.keys(bossData).map(name => {
-    const boss = { name, ...bossData[name] };
-    
-    if (boss.type === 'scheduled') {
-      boss.nextSpawn = getNextScheduledSpawn(boss);
-    } else if (trackedBosses[name]) {
-      boss.tracked = trackedBosses[name];
-      while (boss.tracked.nextSpawn <= new Date()) {
-        boss.tracked.nextSpawn = new Date(boss.tracked.nextSpawn.getTime() + boss.hours * 3600000);
-        boss.tracked.notified = false;
-      }
-    }
-    
-    return boss;
-  });
-
-  // Filter by search
-  if (searchTerm) {
-    bosses = bosses.filter(b => 
-      b.name.toLowerCase().includes(searchTerm) || 
-      b.location.toLowerCase().includes(searchTerm)
-    );
-  }
-
-  // Sort
-  if (currentSort === 'name') {
-    bosses.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (currentSort === 'type') {
-    bosses.sort((a, b) => {
-      if (a.type !== b.type) return a.type === 'scheduled' ? -1 : 1;
-      return a.name.localeCompare(b.name);
-    });
-  } else if (currentSort === 'countdown') {
-    bosses.sort((a, b) => {
-      const aTime = a.nextSpawn ? a.nextSpawn - new Date() : (a.tracked ? a.tracked.nextSpawn - new Date() : Infinity);
-      const bTime = b.nextSpawn ? b.nextSpawn - new Date() : (b.tracked ? b.tracked.nextSpawn - new Date() : Infinity);
-      return aTime - bTime;
-    });
-  }
-
-  let activeCount = 0;
-  let soonCount = 0;
-
-  tbody.innerHTML = bosses.map(boss => {
-    let countdownHTML = '<span class="countdown">-</span>';
-    let nextSpawnHTML = '-';
-    let rowClass = boss.type === 'scheduled' ? 'scheduled-boss' : '';
-    let spawnInfoHTML = '';
-    let actionsHTML = '';
-    
-    if (boss.type === 'scheduled') {
-      // SCHEDULED BOSS - Otomatis
-      spawnInfoHTML = `<div class="schedule-info">${formatSchedule(boss.schedule)}</div>`;
-      
-      if (boss.nextSpawn) {
-        const remaining = boss.nextSpawn - new Date();
-        const remainingMinutes = remaining / 60000;
-        
-        if (isSpawnActive(boss.nextSpawn)) {
-          countdownHTML = '<span class="countdown active-now">🔥 ACTIVE NOW! 🔥</span>';
-          rowClass = 'spawned';
-          activeCount++;
-          notifyBoss(boss.name, `${boss.location} - Boss is spawning NOW!`);
-        } else if (remainingMinutes <= 30) {
-          countdownHTML = `<span class="countdown soon">${formatTime(remaining)}</span>`;
-          rowClass = 'spawning-soon';
-          soonCount++;
-        } else {
-          countdownHTML = `<span class="countdown">${formatTime(remaining)}</span>`;
-        }
-        
-        nextSpawnHTML = boss.nextSpawn.toLocaleString([], { 
-          month: 'short', 
-          day: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
-      }
-      
-      actionsHTML = '<span style="color: var(--gold);">⭐ Auto-tracked</span>';
-      
-    } else {
-      // RESPAWN BOSS - Manual tracking
-      spawnInfoHTML = `<span class="respawn-time">Respawn: ${boss.hours}h</span>`;
-      
-      if (boss.tracked) {
-        const remaining = boss.tracked.nextSpawn - new Date();
-        const remainingMinutes = remaining / 60000;
-        
-        if (remaining <= 0) {
-          countdownHTML = '<span class="countdown spawned">SPAWNED!</span>';
-          rowClass = 'spawned';
-          activeCount++;
-        } else {
-          let countdownClass = 'countdown';
-          if (remainingMinutes <= 30) {
-            countdownClass += ' soon';
-            rowClass = 'spawning-soon';
-            soonCount++;
-            if (!boss.tracked.notified) {
-              notifyBoss(boss.name, `${boss.location} - Spawning in ${Math.ceil(remainingMinutes)} minutes!`);
-              boss.tracked.notified = true;
-            }
-          }
-          countdownHTML = `<span class="${countdownClass}">${formatTime(remaining)}</span>`;
-        }
-        
-        nextSpawnHTML = boss.tracked.nextSpawn.toLocaleString([], { 
-          month: 'short', 
-          day: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
-        
-        actionsHTML = `
-          <div class="action-buttons">
-            <button class="btn-small" onclick="handleKillNow('${boss.name}')">Boss Killed</button>
-            <input type="time" id="time-${boss.name}" class="time-input">
-            <button class="btn-small" onclick="handleCustomTime('${boss.name}')">Set Time</button>
-            <button class="btn-small btn-danger" onclick="resetTimer('${boss.name}')">Reset</button>
-          </div>
-        `;
+function nextSpawn(b) {
+  const n = now();
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  let spawns = [];
+  for (let s of b.sched) {
+    for (let t of s.times) {
+      let sp = new Date(n);
+      const [h, m] = t.split(':').map(Number);
+      if (s.day === 'daily') {
+        sp.setHours(h, m, 0, 0);
+        if (sp <= n) sp.setDate(sp.getDate() + 1);
       } else {
-        countdownHTML = '<span class="countdown" style="color: var(--text-dim);">Not tracked</span>';
-        actionsHTML = `
-          <div class="action-buttons">
-            <button class="btn-small" onclick="handleKillNow('${boss.name}')">Boss Killed</button>
-            <input type="time" id="time-${boss.name}" class="time-input">
-            <button class="btn-small" onclick="handleCustomTime('${boss.name}')">Set Time</button>
-          </div>
-        `;
+        const day = days.indexOf(s.day);
+        let diff = day - sp.getDay();
+        if (diff <= 0) diff += 7;
+        sp.setDate(sp.getDate() + diff);
+        sp.setHours(h, m, 0, 0);
+      }
+      spawns.push(sp);
+    }
+  }
+  return spawns.sort((a, b) => a - b)[0];
+}
+
+function updateCountdown() {
+  const n = now();
+  const cards = document.querySelectorAll('.boss-card');
+  cards.forEach(card => {
+    const nameEl = card.querySelector('.boss-name');
+    if (!nameEl) return;
+    const name = nameEl.textContent;
+    const b = bosses[name];
+    if (!b) return;
+    
+    let cd = null;
+    if (b.type === 'scheduled') {
+      const next = nextSpawn(b);
+      cd = next ? next - n : null;
+    } else if (tracked[name]) {
+      cd = tracked[name] - n;
+    }
+    
+    const countEl = card.querySelector('.countdown');
+    if (!countEl) return;
+    
+    let st = '', cls = '';
+    if (cd !== null) {
+      if (cd < 0 && cd > -3600000) {
+        st = '🔥 ACTIVE NOW!';
+        cls = 'active';
+      } else if (cd > 0 && cd <= 600000) {
+        st = fmtCount(cd);
+        cls = 'soon';
+        if (!notified[name]) {
+          notified[name] = true;
+          document.getElementById('audio').play().catch(() => {});
+          if (Notification.permission === 'granted') {
+            new Notification(`⚠️ ${name}`, {body: `${b.loc}\n⏰ Soon!`, requireInteraction: true});
+          }
+        }
+      } else if (cd > 0) {
+        st = fmtCount(cd);
+      } else {
+        st = 'SPAWNED!';
+      }
+    } else {
+      st = 'Not tracked';
+    }
+    
+    countEl.textContent = st;
+    countEl.className = 'countdown ' + cls;
+  });
+}
+
+function render() {
+  const n = now();
+  let list = [];
+  for (let name in bosses) {
+    let b = {...bosses[name]};
+    b.name = name;
+    if (b.type === 'scheduled') {
+      b.next = nextSpawn(b);
+    } else if (tracked[name]) {
+      b.next = tracked[name];
+    }
+    list.push(b);
+  }
+  list.sort((a, b) => {
+    const at = a.next ? a.next - n : Infinity;
+    const bt = b.next ? b.next - n : Infinity;
+    return at - bt;
+  });
+  
+  let html = '';
+  let act = 0, s = 0;
+  for (let b of list) {
+    const cd = b.next ? b.next - n : null;
+    let info = '';
+    if (b.type === 'scheduled') {
+      info = b.sched.map(x => {
+        const d = x.day === 'daily' ? 'Daily' : x.day.charAt(0).toUpperCase() + x.day.slice(1);
+        return `${d}: ${x.times.join(', ')}`;
+      }).join('<br>');
+    } else {
+      info = `Respawn: ${b.hrs}h`;
+    }
+    
+    let st = 'Not tracked', cls = '';
+    if (cd !== null) {
+      if (cd < 0 && cd > -3600000) {
+        st = '🔥 ACTIVE NOW!';
+        cls = 'active';
+        act++;
+      } else if (cd > 0 && cd <= 600000) {
+        st = fmtCount(cd);
+        cls = 'soon';
+        s++;
+      } else if (cd > 0) {
+        st = fmtCount(cd);
+      } else {
+        st = 'SPAWNED!';
       }
     }
-
-    const typeLabel = boss.type === 'scheduled' ? 'AUTO' : 'MANUAL';
-    const typeClass = boss.type === 'scheduled' ? 'type-scheduled' : 'type-respawn';
-
-    return `
-      <tr class="${rowClass}">
-        <td>
-          <span class="boss-name">${boss.name}</span>
-          <span class="boss-type ${typeClass}">${typeLabel}</span>
-        </td>
-        <td class="location">${boss.location}</td>
-        <td>${spawnInfoHTML}</td>
-        <td class="next-spawn-time">${nextSpawnHTML}</td>
-        <td>${countdownHTML}</td>
-        <td>${actionsHTML}</td>
-      </tr>
-    `;
-  }).join('');
-
-  // Update stats
-  document.getElementById('totalBosses').textContent = Object.keys(bossData).length;
-  document.getElementById('activeNow').textContent = activeCount;
-  document.getElementById('spawningSoon').textContent = soonCount;
-}
-
-// Search functionality
-document.getElementById('searchInput').addEventListener('input', () => {
-  isUpdating = false;
-  renderTable();
-});
-
-// Auto-update countdowns only (not full re-render)
-setInterval(() => {
-  if (!isUpdating) {
-    updateCountdowns();
+    
+    let acts = '';
+    if (b.type === 'respawn') {
+      acts = `<button class="btn-small" onclick="killed('${b.name}')">Killed</button><button class="btn-small" onclick="setTime('${b.name}')">Set</button><input type="time" class="time-input" id="inp-${b.name}"><button class="btn-small danger" onclick="reset('${b.name}')">Reset</button>`;
+    } else {
+      acts = '<button class="btn-small" style="grid-column: 1/-1; background: #ffd700; color: #000;">⭐ Auto</button>';
+    }
+    
+    html += `<div class="boss-card"><div class="boss-header"><div class="boss-name">${b.name}</div><div class="boss-type">${b.type === 'scheduled' ? 'AUTO' : 'MANUAL'}</div></div><div class="boss-info"><div><div class="info-label">Location</div><div class="info-value">${b.loc}</div></div><div><div class="info-label">Info</div><div class="info-value">${info}</div></div><div><div class="info-label">Spawn</div><div class="info-value">${b.next ? fmtTime(b.next) : '-'}</div></div><div><div class="info-label">Count</div><div class="countdown ${cls}">${st}</div></div></div><div class="actions">${acts}</div></div>`;
   }
-}, 1000);
-
-// Full render when needed
-function fullRender() {
-  isUpdating = false;
-  renderTable();
+  
+  document.getElementById('list').innerHTML = html;
+  document.getElementById('total').textContent = Object.keys(bosses).length;
+  document.getElementById('active').textContent = act;
+  document.getElementById('soon').textContent = s;
 }
 
-// Initialize
-loadState();
-renderTable();
-setInterval(fullRender, 60000); // Full re-render every minute
+function killed(name) {
+  const t = now();
+  tracked[name] = new Date(t.getTime() + bosses[name].hrs * 3600000);
+  notified[name] = false;
+  render();
+}
+
+function setTime(name) {
+  const inp = document.getElementById(`inp-${name}`);
+  if (!inp || !inp.value) {
+    alert('Enter time');
+    return;
+  }
+  const t = now();
+  const [h, m] = inp.value.split(':').map(Number);
+  let k = new Date(t);
+  k.setHours(h, m, 0, 0);
+  if (k > t) k.setDate(k.getDate() - 1);
+  tracked[name] = new Date(k.getTime() + bosses[name].hrs * 3600000);
+  notified[name] = false;
+  inp.value = '';
+  render();
+}
+
+function reset(name) {
+  delete tracked[name];
+  notified[name] = false;
+  const inp = document.getElementById(`inp-${name}`);
+  if (inp) inp.value = '';
+  render();
+}
+
+function doResetAll() {
+  if (confirm('Reset all?')) {
+    tracked = {};
+    notified = {};
+    document.querySelectorAll('.time-input').forEach(el => el.value = '');
+    render();
+  }
+}
+
+if (Notification.permission !== 'granted') Notification.requestPermission();
+
+setInterval(updateCountdown, 1000);
+render();
 </script>
 
 </body>
