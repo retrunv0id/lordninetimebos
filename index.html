@@ -1,325 +1,1124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
-<title>Lord Nine Boss TWOKRATS-LORDNINE</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%); color: #f0f0f0; padding: 10px; padding-bottom: 80px; }
-.header { text-align: center; background: rgba(0, 212, 255, 0.1); padding: 10px; border-radius: 6px; margin-bottom: 10px; }
-.header img { width: 25px; margin-bottom: 4px; }
-.header h1 { font-size: 0.85rem; color: #00d4ff; margin-bottom: 4px; }
-.header p { font-size: 0.65rem; color: #00ff88; margin-bottom: 4px; }
-.stats { display: flex; gap: 10px; justify-content: center; font-size: 0.7rem; }
-.stats span { color: #a0a0b0; }
-.stats strong { color: #00d4ff; }
-.controls { display: flex; gap: 8px; margin-bottom: 10px; }
-.btn-reset { flex: 1; padding: 8px; background: #444; border: none; color: white; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
-.boss-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
-.boss-card { background: rgba(0, 212, 255, 0.05); border: 1px solid #00d4ff; border-radius: 4px; padding: 8px; display: flex; flex-direction: column; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWOKRATS BOSS TRACKER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-@media (max-width: 768px) {
-  .boss-list { grid-template-columns: 1fr; gap: 8px; }
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-@media (max-width: 480px) {
-  .boss-list { grid-template-columns: 1fr; gap: 6px; }
-}
-.boss-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.boss-name { color: #00d4ff; font-weight: bold; font-size: 0.8rem; }
-.boss-type { background: #ffd700; color: #000; padding: 2px 5px; border-radius: 3px; font-size: 0.55rem; font-weight: bold; }
-.boss-info { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; font-size: 0.7rem; }
-.info-label { color: #00d4ff; font-weight: bold; font-size: 0.6rem; }
-.info-value { color: #f0f0f0; word-break: break-word; }
-.countdown { color: #00ff88; font-weight: bold; }
-.countdown.soon { color: #ffa500; }
-.countdown.active { color: #ffd700; }
-.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-.btn-small { padding: 5px; background: #00d4ff; border: none; color: white; border-radius: 3px; cursor: pointer; font-size: 0.65rem; font-weight: bold; }
-.btn-small.danger { background: #ff3366; grid-column: 1 / -1; }
-.time-input { grid-column: 1 / -1; padding: 3px; background: #0a0a0f; border: 1px solid #00d4ff; color: #f0f0f0; border-radius: 3px; font-size: 0.65rem; }
-footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(26, 26, 46, 0.95); padding: 6px; text-align: center; font-size: 0.6rem; color: #a0a0b0; }
-.eth { font-family: monospace; color: #00d4ff; font-size: 0.55rem; }
-</style>
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid #404040;
+        }
+
+        .title-group h1 {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(to right, #505050, #808080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .clock {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+
+        .btn-notify {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            border: 1px solid #404040;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .btn-notify:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(80, 80, 80, 0.3);
+            background: linear-gradient(135deg, #3d3d3d, #2a2a2a);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(20, 20, 20, 0.9);
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            border: 1px solid #303030;
+        }
+
+        .filter-btn:hover {
+            background: rgba(40, 40, 40, 0.9);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            box-shadow: 0 5px 15px rgba(80, 80, 80, 0.4);
+            border: 1px solid #505050;
+        }
+
+        .zone-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .zone-tab {
+            padding: 10px 20px;
+            border: 2px solid rgba(80, 80, 80, 0.3);
+            border-radius: 8px;
+            background: transparent;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .zone-tab:hover {
+            border-color: #606060;
+        }
+
+        .zone-tab.active {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            border-color: #505050;
+        }
+
+        .table-wrapper {
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-view {
+            display: table;
+            width: 100%;
+        }
+
+        .card-view {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(20, 20, 20, 0.9);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            color: #808080;
+            border-bottom: 2px solid rgba(80, 80, 80, 0.3);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(80, 80, 80, 0.15);
+        }
+
+        tbody tr {
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: rgba(40, 40, 40, 0.3);
+        }
+
+        .boss-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #e0e7ff;
+        }
+
+        .boss-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border: 1px solid #404040;
+        }
+
+        .timer {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #10b981;
+            font-size: 14px;
+        }
+
+        .timer.warning {
+            color: #f59e0b;
+        }
+
+        .timer.danger {
+            color: #ef4444;
+        }
+
+        .schedule-text {
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .location {
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .btn-set {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            color: white;
+            padding: 8px 16px;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-set:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(80, 80, 80, 0.3);
+            background: linear-gradient(135deg, #3d3d3d, #2a2a2a);
+        }
+
+        .btn-edit {
+            background: #1a3a5a;
+            border: 1px solid #2d5a8a;
+        }
+
+        .btn-edit:hover {
+            background: #2d5a8a;
+        }
+
+        .btn-delete {
+            background: #5a1a1a;
+            border: 1px solid #8a2d2d;
+        }
+
+        .btn-delete:hover {
+            background: #8a2d2d;
+        }
+
+        .notification-area {
+            background: rgba(40, 10, 10, 0.4);
+            border: 1px solid rgba(120, 40, 40, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .notification-area.show {
+            display: block;
+        }
+
+        .notification-item {
+            background: rgba(60, 20, 20, 0.5);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #8a2d2d;
+        }
+
+        .notification-icon {
+            font-size: 24px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 2px solid #404040;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: pulse 0.6s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #808080;
+            margin-bottom: 10px;
+        }
+
+        .modal-text {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 1024px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .zone-tabs {
+                flex-direction: column;
+            }
+
+            .zone-tab {
+                width: 100%;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+                font-size: 11px;
+            }
+
+            th {
+                font-size: 10px;
+            }
+
+            .title-group h1 {
+                font-size: 18px;
+            }
+
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .boss-name {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .boss-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+
+            .action-btns {
+                gap: 4px;
+            }
+
+            .btn-small {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .btn-set {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            .modal-content {
+                max-width: 90%;
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+
+            .modal-text {
+                font-size: 12px;
+            }
+
+            .clock {
+                font-size: 14px;
+            }
+
+            .btn-notify {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            #globalTime {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0;
+            }
+
+            .header {
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 8px;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                text-align: center;
+                width: 100%;
+            }
+
+            .title-group h1 {
+                font-size: 16px;
+                margin-bottom: 3px;
+            }
+
+            .title-group {
+                width: 100%;
+            }
+
+            .btn-notify {
+                width: 100%;
+                padding: 10px;
+                justify-content: center;
+                font-size: 11px;
+            }
+
+            th, td {
+                padding: 6px 4px;
+                font-size: 9px;
+            }
+
+            th {
+                font-size: 8px;
+                letter-spacing: 0.5px;
+            }
+
+            .timer {
+                font-size: 11px;
+            }
+
+            .schedule-text {
+                font-size: 10px;
+            }
+
+            .boss-name {
+                gap: 5px;
+            }
+
+            .boss-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                flex-shrink: 0;
+            }
+
+            .btn-small {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+                padding: 4px;
+            }
+
+            .btn-set {
+                padding: 4px 8px;
+                font-size: 9px;
+                white-space: nowrap;
+            }
+
+            .zone-tabs {
+                gap: 8px;
+            }
+
+            .zone-tab {
+                padding: 8px 12px;
+                font-size: 11px;
+                border-radius: 6px;
+            }
+
+            .filters {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                border-radius: 6px;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
+
+            .modal-icon {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+
+            .modal-title {
+                font-size: 18px;
+            }
+
+            .modal-text {
+                font-size: 11px;
+            }
+
+            .notification-area {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .notification-item {
+                padding: 8px;
+            }
+
+            .notification-icon {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">⚔️</div>
+                    <div class="title-group">
+                        <h1>LORD NINE</h1>
+                        <div style="font-size: 12px; color: #cbd5e1;">TWOKRATS BOSS TRACKER</div>
+                    </div>
+                </div>
+                <button class="btn-notify" onclick="window.requestNotificationPermission()">
+                    🔔 Aktifkan Notifikasi
+                </button>
+            </div>
+            <div class="clock" style="margin-top: 15px;">
+                <span>⏰ Global Time:</span>
+                <span id="globalTime">--:--:--</span>
+            </div>
+        </div>
 
-<div class="header">
-  <img src="https://static-pubcomm.onstove.com/live/l9_asia/brand/images/promotion/common/aside/log_en.png" alt="Logo">
-  <h1>⚔️ BOSS TRACKER ⚔️</h1>
-  <hi>⚔️ TWOKRATS-LORDNINE ⚔️</hi>
-  <p>🌍 Asia/Jakarta UTC+7</p>
-  <div class="stats">
-    <div><span>Total:</span> <strong id="total">0</strong></div>
-    <div><span>Active:</span> <strong id="active" style="color: #ff3366;">0</strong></div>
-    <div><span>Soon:</span> <strong id="soon" style="color: #ffa500;">0</strong></div>
-  </div>
-</div>
+        <div class="zone-tabs">
+            <button class="zone-tab active" onclick="window.switchZone('zone1')">
+                🌏 Zona 1 - Indonesia (UTC+7)
+            </button>
+            <button class="zone-tab" onclick="window.switchZone('zone2')">
+                🌏 Zona 2 - Philipina (UTC+8)
+            </button>
+        </div>
 
-<div class="controls">
-  <button class="btn-reset" onclick="doResetAll()">🔄 Reset All</button>
-</div>
+        <div class="filters">
+            <button class="filter-btn active" onclick="window.setFilter('all', this)">Semua Boss</button>
+            <button class="filter-btn" onclick="window.setFilter('scheduled', this)">Boss Terjadwal</button>
+            <button class="filter-btn" onclick="window.setFilter('respawn', this)">Boss Respawn</button>
+        </div>
 
-<div class="boss-list" id="list"></div>
+        <div class="notification-area" id="notificationArea">
+            <div style="font-weight: bold; margin-bottom: 15px; color: #fca5a5;">🚨 Notifikasi Boss</div>
+            <div id="notificationList"></div>
+        </div>
 
-<audio id="audio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+        <div class="table-wrapper">
+            <div class="table-view">
+                <table id="bossTable">
+                    <thead>
+                        <tr>
+                            <th>LV</th>
+                            <th>BOSS NAME</th>
+                            <th>DAY</th>
+                            <th>INDO +7</th>
+                            <th>PH +8</th>
+                            <th>COUNTDOWN</th>
+                            <th>TIME STAMP</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-view" id="cardView">
+            </div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div style="font-size: 48px; margin-bottom: 15px;">📭</div>
+                <div>No boss found</div>
+            </div>
+        </div>
+    </div>
 
-<footer>
-  <span class="eth">TWOKRATS-LORDNINE</span>
-</footer>
+    <div class="modal" id="alertModal">
+        <div class="modal-content">
+            <div class="modal-icon">⚡</div>
+            <div class="modal-title" id="modalTitle">Boss akan Spawn!</div>
+            <div class="modal-text" id="modalText"></div>
+            <div class="modal-btns">
+                <button class="btn-set" onclick="window.closeModal()">Tutup</button>
+            </div>
+        </div>
+    </div>
 
-<script>
-const TZ = 'Asia/Jakarta';
-const bosses = {
-  "Ratan": {type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
-  "Parto": {type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
-  "Nedra": {type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
-  "Benji": {type: "scheduled", loc: "Nest of Vengeance", sched: [{day: "sunday", times: ["20:00"]}]},
-  "Chailock": {type: "scheduled", loc: "Kallion's Tomb", sched: [{day: "saturday", times: ["21:00"]}]},
-  "Auraq": {type: "scheduled", loc: "Garbana Underground Waterway 2F", sched: [{day: "friday", times: ["21:00"]}, {day: "wednesday", times: ["20:00"]}]},
-  "Saphirus": {type: "scheduled", loc: "Moonlight Shackle", sched: [{day: "sunday", times: ["16:00"]}, {day: "tuesday", times: ["10:30"]}]},
-  "Neutro": {type: "scheduled", loc: "Battlefield of Love and Hatred", sched: [{day: "tuesday", times: ["18:00"]}, {day: "thursday", times: ["10:30"]}]},
-  "Clemantis": {type: "scheduled", loc: "White Witch's Cradle", sched: [{day: "monday", times: ["10:30"]}, {day: "thursday", times: ["18:00"]}]},
-  "Thymele": {type: "scheduled", loc: "Mark of Rampage", sched: [{day: "monday", times: ["18:00"]}, {day: "wednesday", times: ["10:30"]}]},
-  "Milavy": {type: "scheduled", loc: "Lower Tomb of Tyriosa 3F", sched: [{day: "saturday", times: ["14:00"]}]},
-  "Ringor": {type: "scheduled", loc: "Torchlight Highway", sched: [{day: "saturday", times: ["16:00"]}]},
-  "Roderick": {type: "scheduled", loc: "Garbana Underground Waterway 1F", sched: [{day: "friday", times: ["18:00"]}]},
-  "Amentis": {type: "respawn", hrs: 29, loc: "Land of Glory"},
-  "Araneo": {type: "respawn", hrs: 24, loc: "Tyriosa 1F"},
-  "Asta": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
-  "Baron": {type: "respawn", hrs: 32, loc: "Battlefield of Templar"},
-  "Catena": {type: "respawn", hrs: 35, loc: "Deadman 3F"},
-  "Duplican": {type: "respawn", hrs: 48, loc: "Plateau of Revolution"},
-  "Ego": {type: "respawn", hrs: 21, loc: "Ulan Canyon"},
-  "Gareth": {type: "respawn", hrs: 32, loc: "Deadman 1F"},
-  "General": {type: "respawn", hrs: 29, loc: "Tyriosa 2F"},
-  "Lady": {type: "respawn", hrs: 18, loc: "Twilight Hill"},
-  "Larba": {type: "respawn", hrs: 35, loc: "Ruins of the War"},
-  "Livera": {type: "respawn", hrs: 24, loc: "Protector's Ruins"},
-  "Metus": {type: "respawn", hrs: 48, loc: "Plateau of Revolution"},
-  "Ordo": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
-  "Secreta": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
-  "Shuliar": {type: "respawn", hrs: 35, loc: "Ruins of the War"},
-  "Supore": {type: "respawn", hrs: 62, loc: "Silvergrass Field"},
-  "Titore": {type: "respawn", hrs: 37, loc: "Deadman 2F"},
-  "Undomiel": {type: "respawn", hrs: 24, loc: "Secret Lab"},
-  "Venatus": {type: "respawn", hrs: 10, loc: "Corrupted Basin"},
-  "Viorent": {type: "respawn", hrs: 10, loc: "Crescent Lake"},
-  "Wannitas": {type: "respawn", hrs: 48, loc: "Plateau of Revolution"}
-};
+    <script>
+        const bosses = {
+            "Ratan": {level: 98, type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
+            "Parto": {level: 95, type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
+            "Nedra": {level: 95, type: "scheduled", loc: "Ancient Ruins", sched: [{day: "daily", times: ["10:00", "11:00", "19:00", "20:00"]}]},
+            "Benji": {level: 88, type: "scheduled", loc: "Nest of Vengeance", sched: [{day: "sunday", times: ["20:00"]}]},
+            "Chailock": {level: 90, type: "scheduled", loc: "Kallion's Tomb", sched: [{day: "saturday", times: ["21:00"]}]},
+            "Auraq": {level: 85, type: "scheduled", loc: "Garbana Underground Waterway 2F", sched: [{day: "friday", times: ["21:00"]}, {day: "wednesday", times: ["20:00"]}]},
+            "Saphirus": {level: 95, type: "scheduled", loc: "Moonlight Shackle", sched: [{day: "sunday", times: ["16:00"]}, {day: "tuesday", times: ["10:30"]}]},
+            "Neutro": {level: 90, type: "scheduled", loc: "Battlefield of Love and Hatred", sched: [{day: "tuesday", times: ["18:00"]}, {day: "thursday", times: ["10:30"]}]},
+            "Clemantis": {level: 88, type: "scheduled", loc: "White Witch's Cradle", sched: [{day: "monday", times: ["10:30"]}, {day: "thursday", times: ["18:00"]}]},
+            "Thymele": {level: 88, type: "scheduled", loc: "Mark of Rampage", sched: [{day: "monday", times: ["18:00"]}, {day: "wednesday", times: ["10:30"]}]},
+            "Milavy": {level: 85, type: "scheduled", loc: "Lower Tomb of Tyriosa 3F", sched: [{day: "saturday", times: ["14:00"]}]},
+            "Ringor": {level: 85, type: "scheduled", loc: "Torchlight Highway", sched: [{day: "saturday", times: ["16:00"]}]},
+            "Roderick": {level: 80, type: "scheduled", loc: "Garbana Underground Waterway 1F", sched: [{day: "friday", times: ["18:00"]}]},
+            "Amentis": {level: 88, type: "respawn", hrs: 29, loc: "Land of Glory"},
+            "Araneo": {level: 85, type: "respawn", hrs: 24, loc: "Tyriosa 1F"},
+            "Asta": {level: 60, type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+            "Baron": {level: 75, type: "respawn", hrs: 32, loc: "Battlefield of Templar"},
+            "Catena": {level: 80, type: "respawn", hrs: 35, loc: "Deadman 3F"},
+            "Duplican": {level: 90, type: "respawn", hrs: 48, loc: "Plateau of Revolution"},
+            "Ego": {level: 70, type: "respawn", hrs: 21, loc: "Ulan Canyon"},
+            "Gareth": {level: 98, type: "respawn", hrs: 32, loc: "Deadman 1F"},
+            "General": {level: 85, type: "respawn", hrs: 29, loc: "Tyriosa 2F"},
+            "Lady": {level: 75, type: "respawn", hrs: 18, loc: "Twilight Hill"},
+            "Larba": {level: 65, type: "respawn", hrs: 35, loc: "Ruins of the War"},
+            "Livera": {level: 70, type: "respawn", hrs: 24, loc: "Protector's Ruins"},
+            "Metus": {level: 85, type: "respawn", hrs: 48, loc: "Plateau of Revolution"},
+            "Ordo": {level: 60, type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+            "Secreta": {level: 60, type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+            "Shuliar": {level: 65, type: "respawn", hrs: 35, loc: "Ruins of the War"},
+            "Supore": {level: 60, type: "respawn", hrs: 62, loc: "Silvergrass Field"},
+            "Titore": {level: 68, type: "respawn", hrs: 37, loc: "Deadman 2F"},
+            "Undomiel": {level: 75, type: "respawn", hrs: 24, loc: "Secret Lab"},
+            "Venatus": {level: 55, type: "respawn", hrs: 10, loc: "Corrupted Basin"},
+            "Viorent": {level: 60, type: "respawn", hrs: 10, loc: "Crescent Lake"},
+            "Wannitas": {level: 75, type: "respawn", hrs: 48, loc: "Plateau of Revolution"}
+        };
 
-let tracked = {};
-let notified = {};
+        let respawnTimers = {};
+        let notifiedBosses = new Set();
+        let currentFilter = 'all';
+        let currentZone = 'zone1';
 
-function now() { return new Date(new Date().toLocaleString('en-US', {timeZone: TZ})); }
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-function fmtTime(d) {
-  const h = d.getHours();
-  let p = '';
-  if (h >= 5 && h < 11) p = '🌅 Pagi';
-  else if (h >= 11 && h < 15) p = '☀️ Siang';
-  else if (h >= 15 && h < 18) p = '🌤️ Sore';
-  else if (h >= 18 && h < 21) p = '🌆 Petang';
-  else p = '🌙 Malam';
-  const t = d.toLocaleString('en-US', {timeZone: TZ, month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
-  return `${t} ${p}`;
-}
+        window.switchZone = function(zone) {
+            currentZone = zone;
+            document.querySelectorAll('.zone-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateTable();
+        };
 
-function fmtCount(ms) {
-  const s = Math.floor(ms / 1000);
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const sec = s % 60;
-  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-}
+        window.setFilter = function(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateTable();
+        };
 
-function nextSpawn(b) {
-  const n = now();
-  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  let spawns = [];
-  for (let s of b.sched) {
-    for (let t of s.times) {
-      let sp = new Date(n);
-      const [h, m] = t.split(':').map(Number);
-      if (s.day === 'daily') {
-        sp.setHours(h, m, 0, 0);
-        if (sp <= n) sp.setDate(sp.getDate() + 1);
-      } else {
-        const day = days.indexOf(s.day);
-        let diff = day - sp.getDay();
-        if (diff <= 0) diff += 7;
-        sp.setDate(sp.getDate() + diff);
-        sp.setHours(h, m, 0, 0);
-      }
-      spawns.push(sp);
-    }
-  }
-  return spawns.sort((a, b) => a - b)[0];
-}
-
-function updateCountdown() {
-  const n = now();
-  const cards = document.querySelectorAll('.boss-card');
-  cards.forEach(card => {
-    const nameEl = card.querySelector('.boss-name');
-    if (!nameEl) return;
-    const name = nameEl.textContent;
-    const b = bosses[name];
-    if (!b) return;
-    
-    let cd = null;
-    if (b.type === 'scheduled') {
-      const next = nextSpawn(b);
-      cd = next ? next - n : null;
-    } else if (tracked[name]) {
-      cd = tracked[name] - n;
-    }
-    
-    const countEl = card.querySelector('.countdown');
-    if (!countEl) return;
-    
-    let st = '', cls = '';
-    if (cd !== null) {
-      if (cd < 0 && cd > -3600000) {
-        st = '🔥 ACTIVE NOW!';
-        cls = 'active';
-      } else if (cd > 0 && cd <= 600000) {
-        st = fmtCount(cd);
-        cls = 'soon';
-        if (!notified[name]) {
-          notified[name] = true;
-          document.getElementById('audio').play().catch(() => {});
-          if (Notification.permission === 'granted') {
-            new Notification(`⚠️ ${name}`, {body: `${b.loc}\n⏰ Soon!`, requireInteraction: true});
-          }
+        function getTimeByZone(date, zone) {
+            if (zone === 'zone1') {
+                return new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+            } else {
+                return new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+            }
         }
-      } else if (cd > 0) {
-        st = fmtCount(cd);
-      } else {
-        st = 'SPAWNED!';
-      }
-    } else {
-      st = 'Not tracked';
-    }
-    
-    countEl.textContent = st;
-    countEl.className = 'countdown ' + cls;
-  });
-}
 
-function render() {
-  const n = now();
-  let list = [];
-  for (let name in bosses) {
-    let b = {...bosses[name]};
-    b.name = name;
-    if (b.type === 'scheduled') {
-      b.next = nextSpawn(b);
-    } else if (tracked[name]) {
-      b.next = tracked[name];
-    }
-    list.push(b);
-  }
-  list.sort((a, b) => {
-    const at = a.next ? a.next - n : Infinity;
-    const bt = b.next ? b.next - n : Infinity;
-    return at - bt;
-  });
-  
-  let html = '';
-  let act = 0, s = 0;
-  for (let b of list) {
-    const cd = b.next ? b.next - n : null;
-    let info = '';
-    if (b.type === 'scheduled') {
-      info = b.sched.map(x => {
-        const d = x.day === 'daily' ? 'Daily' : x.day.charAt(0).toUpperCase() + x.day.slice(1);
-        return `${d}: ${x.times.join(', ')}`;
-      }).join('<br>');
-    } else {
-      info = `Respawn: ${b.hrs}h`;
-    }
-    
-    let st = 'Not tracked', cls = '';
-    if (cd !== null) {
-      if (cd < 0 && cd > -3600000) {
-        st = '🔥 ACTIVE NOW!';
-        cls = 'active';
-        act++;
-      } else if (cd > 0 && cd <= 600000) {
-        st = fmtCount(cd);
-        cls = 'soon';
-        s++;
-      } else if (cd > 0) {
-        st = fmtCount(cd);
-      } else {
-        st = 'SPAWNED!';
-      }
-    }
-    
-    let acts = '';
-    if (b.type === 'respawn') {
-      acts = `<button class="btn-small" onclick="killed('${b.name}')">Killed</button><button class="btn-small" onclick="setTime('${b.name}')">Set</button><input type="time" class="time-input" id="inp-${b.name}"><button class="btn-small danger" onclick="reset('${b.name}')">Reset</button>`;
-    } else {
-      acts = '<button class="btn-small" style="grid-column: 1/-1; background: #ffd700; color: #000;">⭐ Auto</button>';
-    }
-    
-    html += `<div class="boss-card"><div class="boss-header"><div class="boss-name">${b.name}</div><div class="boss-type">${b.type === 'scheduled' ? 'AUTO' : 'MANUAL'}</div></div><div class="boss-info"><div><div class="info-label">Location</div><div class="info-value">${b.loc}</div></div><div><div class="info-label">Info</div><div class="info-value">${info}</div></div><div><div class="info-label">Spawn</div><div class="info-value">${b.next ? fmtTime(b.next) : '-'}</div></div><div><div class="info-label">Count</div><div class="countdown ${cls}">${st}</div></div></div><div class="actions">${acts}</div></div>`;
-  }
-  
-  document.getElementById('list').innerHTML = html;
-  document.getElementById('total').textContent = Object.keys(bosses).length;
-  document.getElementById('active').textContent = act;
-  document.getElementById('soon').textContent = s;
-}
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('globalTime').textContent = now.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
+            updateTable();
+            checkUpcomingBosses();
+        }
 
-function killed(name) {
-  const t = now();
-  tracked[name] = new Date(t.getTime() + bosses[name].hrs * 3600000);
-  notified[name] = false;
-  render();
-}
+        function getFilteredBosses() {
+            return Object.entries(bosses).filter(([_, boss]) => {
+                if (currentFilter === 'scheduled') return boss.type === 'scheduled';
+                if (currentFilter === 'respawn') return boss.type === 'respawn';
+                return true;
+            });
+        }
 
-function setTime(name) {
-  const inp = document.getElementById(`inp-${name}`);
-  if (!inp || !inp.value) {
-    alert('Enter time');
-    return;
-  }
-  const t = now();
-  const [h, m] = inp.value.split(':').map(Number);
-  let k = new Date(t);
-  k.setHours(h, m, 0, 0);
-  if (k > t) k.setDate(k.getDate() - 1);
-  tracked[name] = new Date(k.getTime() + bosses[name].hrs * 3600000);
-  notified[name] = false;
-  inp.value = '';
-  render();
-}
+        function getNextSpawnTime(boss, zone) {
+            const now = getTimeByZone(new Date(), zone);
+            const dayIndex = now.getDay();
+            let nextSpawn = null;
 
-function reset(name) {
-  delete tracked[name];
-  notified[name] = false;
-  const inp = document.getElementById(`inp-${name}`);
-  if (inp) inp.value = '';
-  render();
-}
+            boss.sched.forEach(schedule => {
+                schedule.times.forEach(time => {
+                    const [hours, minutes] = time.split(':').map(Number);
+                    
+                    if (schedule.day === 'daily') {
+                        const today = new Date(now);
+                        today.setHours(hours, minutes, 0, 0);
+                        
+                        if (today > now) {
+                            if (!nextSpawn || today < nextSpawn) nextSpawn = today;
+                        } else {
+                            const tomorrow = new Date(today);
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            if (!nextSpawn || tomorrow < nextSpawn) nextSpawn = tomorrow;
+                        }
+                    } else {
+                        const targetDay = days.indexOf(schedule.day);
+                        let daysUntil = targetDay - dayIndex;
+                        
+                        if (daysUntil < 0) daysUntil += 7;
+                        if (daysUntil === 0) {
+                            const todaySpawn = new Date(now);
+                            todaySpawn.setHours(hours, minutes, 0, 0);
+                            if (todaySpawn <= now) daysUntil = 7;
+                        }
+                        
+                        const spawnDate = new Date(now);
+                        spawnDate.setDate(spawnDate.getDate() + daysUntil);
+                        spawnDate.setHours(hours, minutes, 0, 0);
+                        
+                        if (!nextSpawn || spawnDate < nextSpawn) nextSpawn = spawnDate;
+                    }
+                });
+            });
 
-function doResetAll() {
-  if (confirm('Reset all?')) {
-    tracked = {};
-    notified = {};
-    document.querySelectorAll('.time-input').forEach(el => el.value = '');
-    render();
-  }
-}
+            return nextSpawn;
+        }
 
-if (Notification.permission !== 'granted') Notification.requestPermission();
+        function getTimeRemaining(timestamp) {
+            const diff = timestamp - new Date().getTime();
+            if (diff <= 0) return 'SPAWN!';
+            
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            return `${hours}h ${minutes}m ${seconds}s`;
+        }
 
-setInterval(updateCountdown, 1000);
-render();
-</script>
+        window.setRespawnTimer = function(name) {
+            const boss = bosses[name];
+            const now = new Date();
+            const currentTime = now.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false});
+            
+            const input = prompt(`Set spawn time untuk ${name}\nWaktu sekarang: ${currentTime}\n\nMasukkan waktu spawn (format: HH:MM)\nContoh: 15:30 atau 01:00`, '');
+            
+            if (input !== null && input !== '') {
+                try {
+                    const spawnDate = new Date();
+                    const timeBits = input.trim().split(':');
+                    const hours = parseInt(timeBits[0]);
+                    const minutes = parseInt(timeBits[1]);
+                    
+                    if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+                        alert('❌ Format salah! Gunakan format: HH:MM (24 jam)\nContoh: 15:30 atau 01:00');
+                        return;
+                    }
+                    
+                    spawnDate.setHours(hours, minutes, 0, 0);
+                    
+                    // Jika waktu sudah lewat hari ini, set untuk besok
+                    if (spawnDate <= now) {
+                        spawnDate.setDate(spawnDate.getDate() + 1);
+                    }
+                    
+                    respawnTimers[name] = spawnDate.getTime();
+                    notifiedBosses.clear();
+                    updateTable();
+                    alert(`✅ Timer set untuk ${name}\nSpawn di: ${spawnDate.toLocaleString('en-US', {weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false})}`);
+                } catch (e) {
+                    alert('❌ Format salah! Gunakan format: HH:MM (24 jam)\nContoh: 15:30 atau 01:00');
+                }
+            }
+        };
 
+        window.deleteTimer = function(name) {
+            delete respawnTimers[name];
+            updateTable();
+        };
+
+        window.editTimer = function(name) {
+            const currentTime = respawnTimers[name] ? new Date(respawnTimers[name]) : null;
+            const now = new Date();
+            
+            let defaultHours = bosses[name].hrs;
+            if (currentTime) {
+                defaultHours = ((currentTime.getTime() - now.getTime()) / 3600000).toFixed(1);
+            }
+            
+            const newHours = prompt(`Edit timer untuk ${name} (jam):`, defaultHours.toString());
+            
+            if (newHours !== null && newHours !== '' && !isNaN(newHours) && parseFloat(newHours) > 0) {
+                const spawnTime = new Date(new Date().getTime() + parseFloat(newHours) * 3600000);
+                respawnTimers[name] = spawnTime.getTime();
+                notifiedBosses.clear();
+                updateTable();
+            } else if (newHours !== null && newHours !== '') {
+                alert('Please enter a valid number greater than 0');
+            }
+        };
+
+        function playNotificationSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioContext.currentTime;
+            
+            for (let i = 0; i < 3; i++) {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+
+                osc.frequency.setValueAtTime(800 + (i * 200), now + (i * 0.2));
+                osc.frequency.setValueAtTime(600 + (i * 150), now + (i * 0.2) + 0.1);
+                gain.gain.setValueAtTime(0.3, now + (i * 0.2));
+                gain.gain.exponentialRampToValueAtTime(0.01, now + (i * 0.2) + 0.3);
+
+                osc.start(now + (i * 0.2));
+                osc.stop(now + (i * 0.2) + 0.3);
+            }
+        }
+
+        window.closeModal = function() {
+            document.getElementById('alertModal').classList.remove('show');
+        };
+
+        function showAlert(bossName, location, time) {
+            playNotificationSound();
+            document.getElementById('modalTitle').textContent = `🚨 ${bossName} akan SPAWN!`;
+            document.getElementById('modalText').innerHTML = `
+                <div><strong>📍 Lokasi:</strong> ${location}</div>
+                <div><strong>⏰ Waktu:</strong> ${time}</div>
+                <div style="margin-top: 10px; color: #fbbf24;">Bersiaplah!</div>
+            `;
+            document.getElementById('alertModal').classList.add('show');
+        }
+
+        function addNotification(name, time, location) {
+            const notifList = document.getElementById('notificationList');
+            const notifArea = document.getElementById('notificationArea');
+            const notifHTML = `
+                <div class="notification-item">
+                    <div class="notification-icon">⚡</div>
+                    <div>
+                        <div style="font-weight: bold; color: #fca5a5;">${name} akan spawn!</div>
+                        <div style="font-size: 12px; color: #f3f4f6;">📍 ${location} • ⏰ ${time}</div>
+                    </div>
+                </div>
+            `;
+            notifList.insertAdjacentHTML('beforeend', notifHTML);
+            notifArea.classList.add('show');
+
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(`Boss ${name} akan spawn!`, {
+                    body: `Lokasi: ${location} | Waktu: ${time}`,
+                    icon: '⚔️'
+                });
+            }
+        }
+
+        window.requestNotificationPermission = function() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        };
+
+        function checkUpcomingBosses() {
+            const now = new Date();
+            const fiveMinutesLater = new Date(now.getTime() + 5 * 60000);
+
+            Object.entries(bosses).forEach(([name, boss]) => {
+                if (boss.type === 'scheduled') {
+                    boss.sched.forEach(schedule => {
+                        schedule.times.forEach(time => {
+                            const [hours, minutes] = time.split(':').map(Number);
+                            const bossTime = new Date(now);
+                            bossTime.setHours(hours, minutes, 0, 0);
+
+                            if (bossTime > now && bossTime <= fiveMinutesLater) {
+                                const notifKey = `${name}-${schedule.day}-${time}`;
+                                if (!notifiedBosses.has(notifKey)) {
+                                    notifiedBosses.add(notifKey);
+                                    showAlert(name, boss.loc, time);
+                                    addNotification(name, time, boss.loc);
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+
+            Object.entries(respawnTimers).forEach(([name, timestamp]) => {
+                const spawnTime = new Date(timestamp);
+                if (spawnTime > now && spawnTime <= fiveMinutesLater) {
+                    const notifKey = `respawn-${name}-${timestamp}`;
+                    if (!notifiedBosses.has(notifKey)) {
+                        notifiedBosses.add(notifKey);
+                        const timeStr = spawnTime.toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit', hour12: false});
+                        showAlert(name, bosses[name].loc, timeStr);
+                        addNotification(name, timeStr, bosses[name].loc);
+                    }
+                }
+            });
+        }
+
+        function updateTable() {
+            const tableBody = document.getElementById('tableBody');
+            const cardView = document.getElementById('cardView');
+            const emptyState = document.getElementById('emptyState');
+            const filteredBosses = getFilteredBosses();
+
+            tableBody.innerHTML = '';
+            cardView.innerHTML = '';
+
+            if (filteredBosses.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            filteredBosses.forEach(([name, boss]) => {
+                const row = document.createElement('tr');
+                let timeZone1 = '--:--';
+                let timeZone2 = '--:--';
+                let countdown = '--:--:--';
+                let daySchedule = '--';
+                let timestamp = '--';
+
+                if (boss.type === 'scheduled') {
+                    const nextSpawn = getNextSpawnTime(boss, currentZone);
+                    if (nextSpawn) {
+                        const nextSpawnZ1 = getTimeByZone(nextSpawn, 'zone1');
+                        const nextSpawnZ2 = getTimeByZone(nextSpawn, 'zone2');
+                        
+                        timeZone1 = nextSpawnZ1.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false});
+                        timeZone2 = nextSpawnZ2.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false});
+                        daySchedule = dayNames[nextSpawn.getDay()];
+                        timestamp = nextSpawn.toLocaleString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
+                        countdown = getTimeRemaining(nextSpawn.getTime());
+                    }
+                } else {
+                    if (respawnTimers[name]) {
+                        const spawnTime = new Date(respawnTimers[name]);
+                        const spawnZ1 = getTimeByZone(spawnTime, 'zone1');
+                        const spawnZ2 = getTimeByZone(spawnTime, 'zone2');
+                        
+                        timeZone1 = spawnZ1.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false});
+                        timeZone2 = spawnZ2.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: false});
+                        daySchedule = dayNames[spawnTime.getDay()];
+                        timestamp = spawnTime.toLocaleString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
+                        countdown = getTimeRemaining(respawnTimers[name]);
+                    } else {
+                        daySchedule = `${boss.hrs}h`;
+                        timestamp = 'Not Set';
+                    }
+                }
+
+                const timerClass = countdown.includes('SPAWN') ? 'timer danger' : countdown.includes('m') && !countdown.includes('h') ? 'timer warning' : 'timer';
+
+                let actionHTML = '';
+                if (boss.type === 'respawn') {
+                    if (respawnTimers[name]) {
+                        actionHTML = `
+                            <div class="action-btns">
+                                <button class="btn-small btn-edit" onclick="window.editTimer('${name}')" title="Edit">✏️</button>
+                                <button class="btn-small btn-delete" onclick="window.deleteTimer('${name}')" title="Delete">🗑️</button>
+                            </div>
+                        `;
+                    } else {
+                        actionHTML = `
+                            <button class="btn-set" onclick="window.setRespawnTimer('${name}')">Set Timer</button>
+                        `;
+                    }
+                }
+
+                row.innerHTML = `
+                    <td style="color: #808080; font-weight: bold;">${boss.level}</td>
+                    <td>
+                        <div class="boss-name">
+                            <div class="boss-icon">⚔️</div>
+                            ${name}
+                        </div>
+                    </td>
+                    <td class="schedule-text">${daySchedule}</td>
+                    <td class="schedule-text">${timeZone1}</td>
+                    <td class="schedule-text">${timeZone2}</td>
+                    <td class="${timerClass}">${countdown}</td>
+                    <td class="schedule-text" style="font-size: 11px;">${timestamp}</td>
+                    <td>${actionHTML}</td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Update setiap detik
+        setInterval(updateClock, 1000);
+
+        // Initial load
+        updateClock();
+    </script>
 </body>
 </html>
